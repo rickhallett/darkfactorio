@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://darkfactorio.ai/schemas/level4-eval-record-v0.1.json",
+  "title": "Level4EvalRecordV0_1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "window_id",
+    "run_id",
+    "pipeline_id",
+    "pipeline_class",
+    "scenario_total",
+    "scenario_passed",
+    "first_pass_success",
+    "retries",
+    "interventions",
+    "decision",
+    "decision_reversed",
+    "critical_incident",
+    "timestamp"
+  ],
+  "properties": {
+    "window_id": { "type": "string", "minLength": 1 },
+    "run_id": { "type": "string", "minLength": 1 },
+    "pipeline_id": { "type": "string", "minLength": 1 },
+    "pipeline_class": {
+      "type": "string",
+      "enum": ["low_risk_feature", "medium_integration"]
+    },
+    "scenario_total": { "type": "integer", "minimum": 1 },
+    "scenario_passed": { "type": "integer", "minimum": 0 },
+    "first_pass_success": { "type": "boolean" },
+    "retries": { "type": "integer", "minimum": 0 },
+    "interventions": { "type": "integer", "minimum": 0 },
+    "decision": {
+      "type": "string",
+      "enum": ["approved", "rejected", "failed"]
+    },
+    "decision_reversed": { "type": "boolean" },
+    "critical_incident": { "type": "boolean" },
+    "timestamp": { "type": "string", "format": "date-time" }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "critical_incident": { "const": true } } },
+      "then": { "properties": { "decision": { "const": "approved" } } }
+    },
+    {
+      "if": { "properties": { "scenario_passed": { "type": "integer" } } },
+      "then": {
+        "properties": {
+          "scenario_total": { "type": "integer", "minimum": 1 }
+        }
+      }
+    }
+  ]
+}
+

@@ -13,6 +13,8 @@ Use these templates to capture outputs from slash agents with a stable file layo
 - `factory/boot-sequence-v0.1.md`
 - `manuals/level4-operations-manual-v0.1.md`
 - `schemas/run-envelope-v0.1.json`
+- `schemas/level4-eval-record-v0.1.json`
+- `playbooks/level4-run-01-10-execution-sheet-v0.1.md`
 
 Suggested naming:
 
@@ -22,3 +24,4 @@ Suggested naming:
 - Migration plan: `migration/YYYY-MM-DD-legacy-roadmap.md`
 - Talent strategy: `talent/YYYY-MM-DD-talent-plan.md`
 - Run envelope records: `runs/YYYY-MM-DD-<pipeline>-<run-id>.json`
+- Evaluation window stream: `runs/<window_id>.ndjson`

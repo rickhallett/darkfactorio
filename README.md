@@ -160,7 +160,13 @@ Template index: `templates.md`
 - Boot sequence: `factory/boot-sequence-v0.1.md`
 - Operations manual: `manuals/level4-operations-manual-v0.1.md`
 - Evaluation gate: `playbooks/level4-evaluation-gate-v0.1.md`
+- Run 01-10 sheet: `playbooks/level4-run-01-10-execution-sheet-v0.1.md`
 - Run schema: `schemas/run-envelope-v0.1.json`
+- Eval record schema: `schemas/level4-eval-record-v0.1.json`
+
+Scriptable gate evaluator (Go):
+
+- `go run ./cmd/dfgate -input runs/<window_id>.ndjson -window <window_id> -output text`
 
 ## Final Note
 
