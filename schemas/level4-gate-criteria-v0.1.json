@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://darkfactorio.ai/schemas/level4-gate-criteria-v0.1.json",
+  "title": "Level4GateCriteriaV0_1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["version", "min_runs", "thresholds", "required_class_minimum"],
+  "properties": {
+    "version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "min_runs": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "thresholds": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "min_scenario_pass_rate_percent",
+        "min_first_pass_rate_percent",
+        "max_mean_retries",
+        "max_decision_reversal_percent",
+        "max_approved_incidents"
+      ],
+      "properties": {
+        "min_scenario_pass_rate_percent": { "type": "number", "minimum": 0, "maximum": 100 },
+        "min_first_pass_rate_percent": { "type": "number", "minimum": 0, "maximum": 100 },
+        "max_mean_retries": { "type": "number", "minimum": 0 },
+        "max_decision_reversal_percent": { "type": "number", "minimum": 0, "maximum": 100 },
+        "max_approved_incidents": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "required_class_minimum": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "integer",
+        "minimum": 0
+      }
+    }
+  }
+}
+

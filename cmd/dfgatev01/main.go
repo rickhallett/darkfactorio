@@ -9,3 +9,4 @@ import (
 func main() {
 	os.Exit(dfgatecli.Run(os.Args[1:]))
 }
+

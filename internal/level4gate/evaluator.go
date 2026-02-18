@@ -33,8 +33,16 @@ type Thresholds struct {
 	MaxApprovedIncidents       int     `json:"max_approved_incidents"`
 }
 
+type Criteria struct {
+	Version              string         `json:"version"`
+	MinRuns              int            `json:"min_runs"`
+	Thresholds           Thresholds     `json:"thresholds"`
+	RequiredClassMinimum map[string]int `json:"required_class_minimum"`
+}
+
 type Metrics struct {
 	RunCount                     int     `json:"run_count"`
+	RunCountByClass              map[string]int `json:"run_count_by_class"`
 	ScenarioPassRatePercent      float64 `json:"scenario_pass_rate_percent"`
 	FirstPassRatePercent         float64 `json:"first_pass_rate_percent"`
 	MeanRetries                  float64 `json:"mean_retries"`
@@ -60,6 +68,18 @@ func DefaultThresholds() Thresholds {
 		MaxMeanRetries:             2.0,
 		MaxDecisionReversalPercent: 5.0,
 		MaxApprovedIncidents:       0,
+	}
+}
+
+func DefaultCriteria() Criteria {
+	return Criteria{
+		Version:    "level4-gate-v0.1",
+		MinRuns:    10,
+		Thresholds: DefaultThresholds(),
+		RequiredClassMinimum: map[string]int{
+			"low_risk_feature":   4,
+			"medium_integration": 4,
+		},
 	}
 }
 
@@ -108,11 +128,17 @@ func DecodeNDJSON(r io.Reader, windowID string) ([]EvalRecord, error) {
 }
 
 func Evaluate(records []EvalRecord, thresholds Thresholds, windowID string) GateReport {
+	criteria := DefaultCriteria()
+	criteria.Thresholds = thresholds
+	return EvaluateWithCriteria(records, criteria, windowID)
+}
+
+func EvaluateWithCriteria(records []EvalRecord, criteria Criteria, windowID string) GateReport {
 	m := computeMetrics(records)
-	failures := evaluateFailures(m, thresholds)
+	failures := evaluateFailures(m, criteria)
 	return GateReport{
 		WindowID:   windowID,
-		Thresholds: thresholds,
+		Thresholds: criteria.Thresholds,
 		Metrics:    m,
 		Passed:     len(failures) == 0,
 		Failures:   failures,
@@ -127,6 +153,7 @@ func computeMetrics(records []EvalRecord) Metrics {
 	var reversals int
 	var approvedCount int
 	var approvedIncidents int
+	classCounts := map[string]int{}
 
 	firstHalfInterventions := 0
 	secondHalfInterventions := 0
@@ -136,6 +163,7 @@ func computeMetrics(records []EvalRecord) Metrics {
 	}
 
 	for i, r := range records {
+		classCounts[r.PipelineClass]++
 		scenarioTotal += r.ScenarioTotal
 		scenarioPassed += r.ScenarioPassed
 		if r.FirstPassSuccess {
@@ -177,6 +205,7 @@ func computeMetrics(records []EvalRecord) Metrics {
 
 	return Metrics{
 		RunCount:                       runCount,
+		RunCountByClass:                classCounts,
 		ScenarioPassRatePercent:        scenarioPassRate,
 		FirstPassRatePercent:           pct(float64(firstPassCount), float64(runCount)),
 		MeanRetries:                    float64(retriesTotal) / float64(runCount),
@@ -188,10 +217,17 @@ func computeMetrics(records []EvalRecord) Metrics {
 	}
 }
 
-func evaluateFailures(m Metrics, t Thresholds) []string {
+func evaluateFailures(m Metrics, c Criteria) []string {
+	t := c.Thresholds
 	var failures []string
-	if m.RunCount < 10 {
-		failures = append(failures, "run_count below minimum window (need >= 10)")
+	if m.RunCount < c.MinRuns {
+		failures = append(failures, fmt.Sprintf("run_count below minimum window (need >= %d)", c.MinRuns))
+	}
+	for className, min := range c.RequiredClassMinimum {
+		got := m.RunCountByClass[className]
+		if got < min {
+			failures = append(failures, fmt.Sprintf("run_count_by_class[%s] %d < %d", className, got, min))
+		}
 	}
 	if m.ScenarioPassRatePercent < t.MinScenarioPassRatePercent {
 		failures = append(failures, fmt.Sprintf("scenario_pass_rate %.2f < %.2f", m.ScenarioPassRatePercent, t.MinScenarioPassRatePercent))
@@ -241,4 +277,3 @@ func pct(n, d float64) float64 {
 	}
 	return (n / d) * 100.0
 }
-

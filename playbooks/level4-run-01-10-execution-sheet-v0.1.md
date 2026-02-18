@@ -11,7 +11,7 @@ Operate a minimum 10-run Level 4 window with deterministic metrics and machine-e
 - Pipeline class A: `low_risk_feature`
 - Pipeline class B: `medium_integration`
 - Scenario suite versions pinned per pipeline class
-- Evaluation command: `go run ./cmd/dfgate -input runs/<window_id>.ndjson -window <window_id> -output json`
+- Evaluation command (baseline): `go run ./cmd/dfgatev01 -input runs/<window_id>.ndjson -window <window_id> -criteria profiles/level4-gate-v0.1-baseline.json -output json`
 
 ## Ownership
 
@@ -61,7 +61,13 @@ Example line:
 ## Hard Gate Command
 
 ```bash
-go run ./cmd/dfgate -input runs/<window_id>.ndjson -window <window_id> -output text
+go run ./cmd/dfgatev01 -input runs/<window_id>.ndjson -window <window_id> -criteria profiles/level4-gate-v0.1-baseline.json -output text
+```
+
+Adversarial replay:
+
+```bash
+go run ./cmd/dfgatev01 -input runs/<window_id>.ndjson -window <window_id> -criteria profiles/level4-gate-v0.1-adversarial.json -output text
 ```
 
 Exit codes:
@@ -94,4 +100,3 @@ Exit codes:
 - No approval without scenario results.
 - No rewriting historical run records.
 - If schema validation fails, run does not count.
-

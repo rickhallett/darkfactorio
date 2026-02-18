@@ -14,7 +14,10 @@ Use these templates to capture outputs from slash agents with a stable file layo
 - `manuals/level4-operations-manual-v0.1.md`
 - `schemas/run-envelope-v0.1.json`
 - `schemas/level4-eval-record-v0.1.json`
+- `schemas/level4-gate-criteria-v0.1.json`
 - `playbooks/level4-run-01-10-execution-sheet-v0.1.md`
+- `profiles/level4-gate-v0.1-baseline.json`
+- `profiles/level4-gate-v0.1-adversarial.json`
 
 Suggested naming:
 

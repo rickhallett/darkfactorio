@@ -164,9 +164,10 @@ Template index: `templates.md`
 - Run schema: `schemas/run-envelope-v0.1.json`
 - Eval record schema: `schemas/level4-eval-record-v0.1.json`
 
-Scriptable gate evaluator (Go):
+Scriptable gate evaluator (Go, versioned):
 
-- `go run ./cmd/dfgate -input runs/<window_id>.ndjson -window <window_id> -output text`
+- baseline: `go run ./cmd/dfgatev01 -input runs/<window_id>.ndjson -window <window_id> -criteria profiles/level4-gate-v0.1-baseline.json -output text`
+- adversarial replay: `go run ./cmd/dfgatev01 -input runs/<window_id>.ndjson -window <window_id> -criteria profiles/level4-gate-v0.1-adversarial.json -output text`
 
 ## Final Note
 
