@@ -2,11 +2,13 @@ package level4gate
 
 import (
 	"bufio"
+	"bytes"
 	"encoding/json"
 	"errors"
 	"fmt"
 	"io"
 	"os"
+	"time"
 )
 
 type EvalRecord struct {
@@ -41,16 +43,16 @@ type Criteria struct {
 }
 
 type Metrics struct {
-	RunCount                     int     `json:"run_count"`
-	RunCountByClass              map[string]int `json:"run_count_by_class"`
-	ScenarioPassRatePercent      float64 `json:"scenario_pass_rate_percent"`
-	FirstPassRatePercent         float64 `json:"first_pass_rate_percent"`
-	MeanRetries                  float64 `json:"mean_retries"`
-	InterventionAvgFirstHalf     float64 `json:"intervention_avg_first_half"`
-	InterventionAvgSecondHalf    float64 `json:"intervention_avg_second_half"`
-	InterventionStableOrDecreasing bool  `json:"intervention_stable_or_decreasing"`
-	DecisionReversalPercent      float64 `json:"decision_reversal_percent"`
-	ApprovedRunCriticalIncidents int     `json:"approved_run_critical_incidents"`
+	RunCount                       int            `json:"run_count"`
+	RunCountByClass                map[string]int `json:"run_count_by_class"`
+	ScenarioPassRatePercent        float64        `json:"scenario_pass_rate_percent"`
+	FirstPassRatePercent           float64        `json:"first_pass_rate_percent"`
+	MeanRetries                    float64        `json:"mean_retries"`
+	InterventionAvgFirstHalf       float64        `json:"intervention_avg_first_half"`
+	InterventionAvgSecondHalf      float64        `json:"intervention_avg_second_half"`
+	InterventionStableOrDecreasing bool           `json:"intervention_stable_or_decreasing"`
+	DecisionReversalPercent        float64        `json:"decision_reversal_percent"`
+	ApprovedRunCriticalIncidents   int            `json:"approved_run_critical_incidents"`
 }
 
 type GateReport struct {
@@ -102,11 +104,12 @@ func DecodeNDJSON(r io.Reader, windowID string) ([]EvalRecord, error) {
 	for sc.Scan() {
 		line++
 		raw := sc.Bytes()
-		if len(raw) == 0 {
+		if len(bytes.TrimSpace(raw)) == 0 {
 			continue
 		}
-		var rec EvalRecord
-		if err := json.Unmarshal(raw, &rec); err != nil {
+
+		rec, err := decodeLine(raw)
+		if err != nil {
 			return nil, fmt.Errorf("line %d: %w", line, err)
 		}
 		if windowID != "" && rec.WindowID != windowID {
@@ -125,6 +128,48 @@ func DecodeNDJSON(r io.Reader, windowID string) ([]EvalRecord, error) {
 		return nil, errors.New("no records matched filter")
 	}
 	return out, nil
+}
+
+func decodeLine(raw []byte) (EvalRecord, error) {
+	var keySet map[string]json.RawMessage
+	if err := json.Unmarshal(raw, &keySet); err != nil {
+		return EvalRecord{}, err
+	}
+
+	requiredKeys := map[string]struct{}{
+		"window_id":          {},
+		"run_id":             {},
+		"pipeline_id":        {},
+		"pipeline_class":     {},
+		"scenario_total":     {},
+		"scenario_passed":    {},
+		"first_pass_success": {},
+		"retries":            {},
+		"interventions":      {},
+		"decision":           {},
+		"decision_reversed":  {},
+		"critical_incident":  {},
+		"timestamp":          {},
+	}
+
+	for req := range requiredKeys {
+		if _, ok := keySet[req]; !ok {
+			return EvalRecord{}, fmt.Errorf("missing required field %q", req)
+		}
+	}
+	for k := range keySet {
+		if _, ok := requiredKeys[k]; !ok {
+			return EvalRecord{}, fmt.Errorf("unknown field %q", k)
+		}
+	}
+
+	dec := json.NewDecoder(bytes.NewReader(raw))
+	dec.DisallowUnknownFields()
+	var rec EvalRecord
+	if err := dec.Decode(&rec); err != nil {
+		return EvalRecord{}, err
+	}
+	return rec, nil
 }
 
 func Evaluate(records []EvalRecord, thresholds Thresholds, windowID string) GateReport {
@@ -251,13 +296,21 @@ func evaluateFailures(m Metrics, c Criteria) []string {
 }
 
 func validateRecord(r EvalRecord) error {
+	if r.WindowID == "" {
+		return errors.New("window_id is required")
+	}
 	if r.RunID == "" {
 		return errors.New("run_id is required")
 	}
 	if r.PipelineID == "" {
 		return errors.New("pipeline_id is required")
 	}
-	if r.ScenarioTotal < 0 || r.ScenarioPassed < 0 || r.ScenarioPassed > r.ScenarioTotal {
+	switch r.PipelineClass {
+	case "low_risk_feature", "medium_integration":
+	default:
+		return errors.New("pipeline_class must be low_risk_feature|medium_integration")
+	}
+	if r.ScenarioTotal < 1 || r.ScenarioPassed < 0 || r.ScenarioPassed > r.ScenarioTotal {
 		return errors.New("invalid scenario counts")
 	}
 	if r.Retries < 0 || r.Interventions < 0 {
@@ -267,6 +320,12 @@ func validateRecord(r EvalRecord) error {
 	case "approved", "rejected", "failed":
 	default:
 		return errors.New("decision must be approved|rejected|failed")
+	}
+	if r.CriticalIncident && r.Decision != "approved" {
+		return errors.New("critical_incident=true requires decision=approved")
+	}
+	if _, err := time.Parse(time.RFC3339, r.Timestamp); err != nil {
+		return fmt.Errorf("timestamp must be RFC3339: %w", err)
 	}
 	return nil
 }

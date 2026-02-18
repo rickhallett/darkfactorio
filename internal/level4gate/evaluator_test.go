@@ -1,6 +1,9 @@
 package level4gate
 
-import "testing"
+import (
+	"strings"
+	"testing"
+)
 
 func TestEvaluatePass(t *testing.T) {
 	records := []EvalRecord{
@@ -42,5 +45,55 @@ func TestEvaluateFail(t *testing.T) {
 	}
 	if len(report.Failures) < 3 {
 		t.Fatalf("expected multiple failure reasons, got: %v", report.Failures)
+	}
+}
+
+func TestDecodeNDJSONRejectsUnknownField(t *testing.T) {
+	in := `{"window_id":"w","run_id":"r1","pipeline_id":"p1","pipeline_class":"low_risk_feature","scenario_total":10,"scenario_passed":10,"first_pass_success":true,"retries":0,"interventions":0,"decision":"approved","decision_reversed":false,"critical_incident":false,"timestamp":"2026-02-18T20:00:00Z","extra":"nope"}`
+	_, err := DecodeNDJSON(strings.NewReader(in), "")
+	if err == nil {
+		t.Fatalf("expected error for unknown field")
+	}
+	if !strings.Contains(err.Error(), `unknown field "extra"`) {
+		t.Fatalf("unexpected error: %v", err)
+	}
+}
+
+func TestDecodeNDJSONRejectsMissingRequiredField(t *testing.T) {
+	in := `{"window_id":"w","run_id":"r1","pipeline_id":"p1","pipeline_class":"low_risk_feature","scenario_total":10,"scenario_passed":10,"first_pass_success":true,"retries":0,"interventions":0,"decision":"approved","critical_incident":false,"timestamp":"2026-02-18T20:00:00Z"}`
+	_, err := DecodeNDJSON(strings.NewReader(in), "")
+	if err == nil {
+		t.Fatalf("expected error for missing required field")
+	}
+	if !strings.Contains(err.Error(), `missing required field "decision_reversed"`) {
+		t.Fatalf("unexpected error: %v", err)
+	}
+}
+
+func TestDecodeNDJSONRejectsInvalidSchemaValues(t *testing.T) {
+	in := strings.Join([]string{
+		`{"window_id":"w","run_id":"r1","pipeline_id":"p1","pipeline_class":"unknown","scenario_total":10,"scenario_passed":10,"first_pass_success":true,"retries":0,"interventions":0,"decision":"approved","decision_reversed":false,"critical_incident":false,"timestamp":"2026-02-18T20:00:00Z"}`,
+		`{"window_id":"w","run_id":"r2","pipeline_id":"p2","pipeline_class":"low_risk_feature","scenario_total":0,"scenario_passed":0,"first_pass_success":true,"retries":0,"interventions":0,"decision":"approved","decision_reversed":false,"critical_incident":false,"timestamp":"2026-02-18T20:00:00Z"}`,
+		`{"window_id":"w","run_id":"r3","pipeline_id":"p3","pipeline_class":"low_risk_feature","scenario_total":10,"scenario_passed":10,"first_pass_success":true,"retries":0,"interventions":0,"decision":"rejected","decision_reversed":false,"critical_incident":true,"timestamp":"2026-02-18T20:00:00Z"}`,
+		`{"window_id":"w","run_id":"r4","pipeline_id":"p4","pipeline_class":"low_risk_feature","scenario_total":10,"scenario_passed":10,"first_pass_success":true,"retries":0,"interventions":0,"decision":"approved","decision_reversed":false,"critical_incident":false,"timestamp":"not-a-time"}`,
+	}, "\n")
+
+	_, err := DecodeNDJSON(strings.NewReader(in), "")
+	if err == nil {
+		t.Fatalf("expected decode failure")
+	}
+	if !strings.Contains(err.Error(), "line 1: pipeline_class must be low_risk_feature|medium_integration") {
+		t.Fatalf("unexpected error: %v", err)
+	}
+}
+
+func TestDecodeNDJSONAcceptsValidRecord(t *testing.T) {
+	in := `{"window_id":"w","run_id":"r1","pipeline_id":"p1","pipeline_class":"low_risk_feature","scenario_total":10,"scenario_passed":10,"first_pass_success":true,"retries":0,"interventions":0,"decision":"approved","decision_reversed":false,"critical_incident":false,"timestamp":"2026-02-18T20:00:00Z"}`
+	recs, err := DecodeNDJSON(strings.NewReader(in), "w")
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	if len(recs) != 1 {
+		t.Fatalf("expected one record, got %d", len(recs))
 	}
 }
