@@ -1,16 +1,28 @@
-.PHONY: test gate-sample gate-sample-adversarial build-dfgate build-dfgatev01
+.PHONY: test gate-sample gate-sample-adversarial build-dfgate build-dfgatev01 build-dflearn learning-touch learning-check
+
+GOCACHE ?= $(CURDIR)/.cache/go-build
+GO := GOCACHE=$(GOCACHE) go
 
 test:
-	go test ./...
+	$(GO) test ./...
 
 build-dfgate:
-	go build -o ./bin/dfgate ./cmd/dfgate
+	$(GO) build -o ./bin/dfgate ./cmd/dfgate
 
 build-dfgatev01:
-	go build -o ./bin/dfgatev01 ./cmd/dfgatev01
+	$(GO) build -o ./bin/dfgatev01 ./cmd/dfgatev01
+
+build-dflearn:
+	$(GO) build -o ./bin/dflearn ./cmd/dflearn
+
+learning-touch:
+	$(GO) run ./cmd/dflearn touch --source-project darkfactorio --summary "manual learning checkpoint"
+
+learning-check:
+	$(GO) run ./cmd/dflearn check --base HEAD~1 --head HEAD
 
 gate-sample:
-	go run ./cmd/dfgatev01 -input runs/examples/window-sample.ndjson -window w-2026-02-l4-01 -criteria profiles/level4-gate-v0.1-baseline.json -output text
+	$(GO) run ./cmd/dfgatev01 -input runs/examples/window-sample.ndjson -window w-2026-02-l4-01 -criteria profiles/level4-gate-v0.1-baseline.json -output text
 
 gate-sample-adversarial:
-	go run ./cmd/dfgatev01 -input runs/examples/window-sample.ndjson -window w-2026-02-l4-01 -criteria profiles/level4-gate-v0.1-adversarial.json -output text
+	$(GO) run ./cmd/dfgatev01 -input runs/examples/window-sample.ndjson -window w-2026-02-l4-01 -criteria profiles/level4-gate-v0.1-adversarial.json -output text

@@ -169,6 +169,22 @@ Scriptable gate evaluator (Go, versioned):
 - baseline: `go run ./cmd/dfgatev01 -input runs/<window_id>.ndjson -window <window_id> -criteria profiles/level4-gate-v0.1-baseline.json -output text`
 - adversarial replay: `go run ./cmd/dfgatev01 -input runs/<window_id>.ndjson -window <window_id> -criteria profiles/level4-gate-v0.1-adversarial.json -output text`
 
+## Learning In Public Gate
+
+`darkfactorio` now enforces an append-only learning record in-repo, agnostic of source projects.
+
+- CLI: `go run ./cmd/dflearn`
+- Journal: `learning/journal/YYYY/YYYY-MM-DD.md`
+- Decisions: `learning/decisions/`
+- Rule: substantive changes must include a journal or decision update.
+- CI gate: `.github/workflows/learning-gate.yml`
+
+Quick start:
+
+- `go run ./cmd/dflearn touch --source-project tspit --summary "Ran baseline gate"`
+- `go run ./cmd/dflearn check --base origin/main --head HEAD`
+- `make learning-touch` / `make learning-check` (uses repo-local `GOCACHE` for low-friction runs)
+
 ## Final Note
 
 The dark factory does not remove the need for good engineers.

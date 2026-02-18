@@ -1,0 +1,35 @@
+name: learning-gate
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+
+      - name: Learning gate (PR)
+        if: github.event_name == 'pull_request'
+        run: |
+          go run ./cmd/dflearn check \
+            --base "${{ github.event.pull_request.base.sha }}" \
+            --head "${{ github.sha }}"
+
+      - name: Learning gate (push)
+        if: github.event_name == 'push'
+        run: |
+          go run ./cmd/dflearn check \
+            --base "${{ github.event.before }}" \
+            --head "${{ github.sha }}"
