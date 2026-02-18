@@ -152,6 +152,8 @@ Use this repository as:
 - a source of reusable spec templates and scenario patterns
 - a log of what actually worked versus what sounded smart on X
 
+Template index: `templates.md`
+
 ## Final Note
 
 The dark factory does not remove the need for good engineers.
