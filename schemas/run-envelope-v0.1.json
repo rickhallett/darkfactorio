@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://darkfactorio.ai/schemas/run-envelope-v0.1.json",
+  "title": "RunEnvelopeV0_1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "run_id",
+    "pipeline_id",
+    "pipeline_version",
+    "scenario_suite_id",
+    "scenario_suite_version",
+    "factory_profile_id",
+    "status",
+    "created_at",
+    "updated_at",
+    "artifacts_root"
+  ],
+  "properties": {
+    "run_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "pipeline_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "pipeline_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "scenario_suite_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "scenario_suite_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "factory_profile_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "queued",
+        "booting",
+        "executing",
+        "awaiting_human",
+        "evaluating",
+        "approved",
+        "rejected",
+        "failed",
+        "canceled"
+      ]
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "artifacts_root": {
+      "type": "string",
+      "minLength": 1
+    },
+    "active_stage_id": {
+      "type": ["string", "null"]
+    },
+    "checkpoint_ref": {
+      "type": ["string", "null"]
+    },
+    "final_outcome": {
+      "type": ["string", "null"],
+      "enum": ["success", "retry", "fail", "partial_success", null]
+    },
+    "metrics": {
+      "type": "object",
+      "additionalProperties": {
+        "type": ["number", "string", "boolean", "null"]
+      }
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

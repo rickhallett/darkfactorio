@@ -154,6 +154,14 @@ Use this repository as:
 
 Template index: `templates.md`
 
+## darkfactorio layer v0.1
+
+- Architecture: `factory/darkfactorio-layer-v0.1.md`
+- Boot sequence: `factory/boot-sequence-v0.1.md`
+- Operations manual: `manuals/level4-operations-manual-v0.1.md`
+- Evaluation gate: `playbooks/level4-evaluation-gate-v0.1.md`
+- Run schema: `schemas/run-envelope-v0.1.json`
+
 ## Final Note
 
 The dark factory does not remove the need for good engineers.

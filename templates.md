@@ -8,6 +8,11 @@ Use these templates to capture outputs from slash agents with a stable file layo
 - `migration/legacy-migration-roadmap-template.md`
 - `talent/talent-strategy-template.md`
 - `playbooks/level4-pilot-checklist.md`
+- `playbooks/level4-evaluation-gate-v0.1.md`
+- `factory/darkfactorio-layer-v0.1.md`
+- `factory/boot-sequence-v0.1.md`
+- `manuals/level4-operations-manual-v0.1.md`
+- `schemas/run-envelope-v0.1.json`
 
 Suggested naming:
 
@@ -16,3 +21,4 @@ Suggested naming:
 - Org redesign: `org/YYYY-MM-DD-org-redesign.md`
 - Migration plan: `migration/YYYY-MM-DD-legacy-roadmap.md`
 - Talent strategy: `talent/YYYY-MM-DD-talent-plan.md`
+- Run envelope records: `runs/YYYY-MM-DD-<pipeline>-<run-id>.json`
