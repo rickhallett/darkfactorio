@@ -1,4 +1,5 @@
 bin/
 .cache/
 runs/*.ndjson
+!runs/w-*.ndjson
 !runs/examples/*.ndjson
