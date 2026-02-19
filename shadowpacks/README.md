@@ -41,3 +41,16 @@ make onboard-validate PROJECT=tspit
 ```
 
 Then replace `shadowpacks/tspit/candidate.json` and `shadowpacks/tspit/holdout.json` with real outputs from independent producers.
+
+## Holdout sync adapter
+
+Use the adapter to ingest holdout artifact + provenance from an independent source:
+
+```bash
+make holdout-sync CONFIG=adapters/holdout/examples/linenoise-sync.json
+```
+
+This writes:
+
+- `shadowpacks/<project>/holdout.json`
+- `shadowpacks/<project>/holdout-provenance.json`

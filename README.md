@@ -181,6 +181,7 @@ Run:
 - `make shadow-pack` (independent implementation-vs-holdout separation check)
 - `make onboard-project PROJECT=<project>` (generate shadow-pack scaffold)
 - `make onboard-validate PROJECT=<project>` (validate candidate/holdout artifact schemas)
+- `make holdout-sync CONFIG=adapters/holdout/examples/linenoise-sync.json` (ingest external holdout + provenance)
 
 Scriptable gate evaluator (Go, versioned):
 

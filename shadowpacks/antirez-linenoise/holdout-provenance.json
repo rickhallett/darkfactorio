@@ -1,0 +1,7 @@
+{
+  "holdout_producer": "antirez-linenoise-qa",
+  "holdout_repo": "antirez/linenoise",
+  "holdout_sha": "e3066e5",
+  "results_path": "shadowpacks/antirez-linenoise/holdout.json",
+  "results_sha256": "44af556f2bb4a775a3b0c751344ae437f81e6afb212885a9237324d200857b80"
+}

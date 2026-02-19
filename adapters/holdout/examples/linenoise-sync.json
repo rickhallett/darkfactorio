@@ -1,0 +1,7 @@
+{
+  "project": "antirez-linenoise",
+  "holdout_producer": "antirez-linenoise-qa",
+  "holdout_repo": "antirez/linenoise",
+  "holdout_sha": "e3066e5",
+  "holdout_results_source": "/tmp/df-ext/linenoise/darkfactorio/holdout.json"
+}
