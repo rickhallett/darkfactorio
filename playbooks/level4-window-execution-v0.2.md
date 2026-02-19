@@ -161,6 +161,12 @@ Learning gate check:
 go run ./cmd/dflearn check --base HEAD~1 --head HEAD
 ```
 
+Autonomous batch advance (append runs + replay gates + learning log):
+
+```bash
+go run ./cmd/dfwindowv01 --window <window_id> --append 2
+```
+
 ## Failure protocol
 
 If gate fails mid-window:
