@@ -19,6 +19,7 @@ func TestAdvanceAppendsRecordsAndEvaluates(t *testing.T) {
 		AppendCount: 2,
 		RunsPath:    "runs/w-test.ndjson",
 		LogLearning: true,
+		QualityMode: "high",
 	})
 	if err != nil {
 		t.Fatalf("Advance failed: %v", err)
@@ -42,6 +43,22 @@ func TestAdvanceAppendsRecordsAndEvaluates(t *testing.T) {
 	}
 	if len(recs) != 2 {
 		t.Fatalf("expected 2 records in file, got %d", len(recs))
+	}
+}
+
+func TestAdvanceRejectsInvalidQualityMode(t *testing.T) {
+	root := t.TempDir()
+	mustWrite(t, filepath.Join(root, "profiles/level4-gate-v0.1-baseline.json"), `{"version":"b","min_runs":1,"thresholds":{"min_scenario_pass_rate_percent":90,"min_first_pass_rate_percent":70,"max_mean_retries":2,"max_decision_reversal_percent":5,"max_approved_incidents":0},"required_class_minimum":{"low_risk_feature":0,"medium_integration":0}}`)
+	mustWrite(t, filepath.Join(root, "profiles/level4-gate-v0.1-adversarial.json"), `{"version":"a","min_runs":1,"thresholds":{"min_scenario_pass_rate_percent":90,"min_first_pass_rate_percent":70,"max_mean_retries":2,"max_decision_reversal_percent":5,"max_approved_incidents":0},"required_class_minimum":{"low_risk_feature":0,"medium_integration":0}}`)
+
+	_, err := Advance(AdvanceOptions{
+		Root:        root,
+		WindowID:    "w-test",
+		AppendCount: 1,
+		QualityMode: "bad",
+	})
+	if err == nil {
+		t.Fatalf("expected error for invalid quality mode")
 	}
 }
 

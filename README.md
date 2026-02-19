@@ -169,6 +169,7 @@ Scriptable gate evaluator (Go, versioned):
 - baseline: `go run ./cmd/dfgatev01 -input runs/<window_id>.ndjson -window <window_id> -criteria profiles/level4-gate-v0.1-baseline.json -output text`
 - adversarial replay: `go run ./cmd/dfgatev01 -input runs/<window_id>.ndjson -window <window_id> -criteria profiles/level4-gate-v0.1-adversarial.json -output text`
 - autonomous window advance: `go run ./cmd/dfwindowv01 --window <window_id> --append 2`
+- high-quality remediation advance: `go run ./cmd/dfwindowv01 --window <window_id> --append 2 --quality high`
 - corpus replay (multi-window): `go run ./cmd/dfcorpusv01 --inputs runs/w-2026-02-l4-02.ndjson,runs/w-2026-02-l4-03.ndjson --criteria profiles/level4-gate-v0.1-adversarial.json`
 
 ## Learning In Public Gate
@@ -187,6 +188,7 @@ Quick start:
 - `go run ./cmd/dflearn check --base origin/main --head HEAD`
 - `make learning-touch` / `make learning-check` (uses repo-local `GOCACHE` for low-friction runs)
 - `make window-advance WINDOW=w-2026-02-l4-03 APPEND=2`
+- `make window-advance-high WINDOW=w-2026-02-l4-03 APPEND=2`
 - `make corpus-adversarial`
 
 ## Final Note

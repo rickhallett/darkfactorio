@@ -1,4 +1,4 @@
-.PHONY: test gate-sample gate-sample-adversarial build-dfgate build-dfgatev01 build-dflearn build-dfwindowv01 build-dfcorpusv01 learning-touch learning-check window-advance corpus-adversarial
+.PHONY: test gate-sample gate-sample-adversarial build-dfgate build-dfgatev01 build-dflearn build-dfwindowv01 build-dfcorpusv01 learning-touch learning-check window-advance window-advance-high corpus-adversarial
 
 GOCACHE ?= $(CURDIR)/.cache/go-build
 GO := GOCACHE=$(GOCACHE) go
@@ -29,6 +29,9 @@ learning-check:
 
 window-advance:
 	$(GO) run ./cmd/dfwindowv01 --window $(WINDOW) --append $(or $(APPEND),2)
+
+window-advance-high:
+	$(GO) run ./cmd/dfwindowv01 --window $(WINDOW) --append $(or $(APPEND),2) --quality high
 
 corpus-adversarial:
 	$(GO) run ./cmd/dfcorpusv01 --inputs runs/w-2026-02-l4-02.ndjson,runs/w-2026-02-l4-03.ndjson --criteria profiles/level4-gate-v0.1-adversarial.json --output text

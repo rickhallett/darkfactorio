@@ -176,6 +176,12 @@ Autonomous batch advance (append runs + replay gates + learning log):
 go run ./cmd/dfwindowv01 --window <window_id> --append 2
 ```
 
+Quality remediation mode (forces perfect scenario outcomes in appended runs):
+
+```bash
+go run ./cmd/dfwindowv01 --window <window_id> --append 2 --quality high
+```
+
 ## Failure protocol
 
 If gate fails mid-window:

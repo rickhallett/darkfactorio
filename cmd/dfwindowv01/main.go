@@ -25,6 +25,7 @@ func run(args []string) int {
 	var interval string
 	var baseline string
 	var adversarial string
+	var quality string
 
 	fs.StringVar(&windowID, "window", "", "window id (required)")
 	fs.StringVar(&runsPath, "runs", "", "runs NDJSON path (default runs/<window>.ndjson)")
@@ -34,6 +35,7 @@ func run(args []string) int {
 	fs.StringVar(&interval, "interval", "15m", "duration between appended runs")
 	fs.StringVar(&baseline, "baseline", "profiles/level4-gate-v0.1-baseline.json", "baseline criteria path")
 	fs.StringVar(&adversarial, "adversarial", "profiles/level4-gate-v0.1-adversarial.json", "adversarial criteria path")
+	fs.StringVar(&quality, "quality", "standard", "run quality mode: standard|high")
 
 	if err := fs.Parse(args); err != nil {
 		return 1
@@ -68,6 +70,7 @@ func run(args []string) int {
 		BaselineCriteria:    baseline,
 		AdversarialCriteria: adversarial,
 		LogLearning:         logLearning,
+		QualityMode:         quality,
 	})
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "error: %v\n", err)

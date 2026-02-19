@@ -22,6 +22,7 @@ type AdvanceOptions struct {
 	BaselineCriteria    string
 	AdversarialCriteria string
 	LogLearning         bool
+	QualityMode         string
 }
 
 type AdvanceResult struct {
@@ -56,6 +57,12 @@ func Advance(opts AdvanceOptions) (AdvanceResult, error) {
 	}
 	if opts.AdversarialCriteria == "" {
 		opts.AdversarialCriteria = filepath.Join("profiles", "level4-gate-v0.1-adversarial.json")
+	}
+	if opts.QualityMode == "" {
+		opts.QualityMode = "standard"
+	}
+	if opts.QualityMode != "standard" && opts.QualityMode != "high" {
+		return AdvanceResult{}, fmt.Errorf("quality_mode must be standard|high")
 	}
 
 	absRuns := filepath.Join(opts.Root, opts.RunsPath)
@@ -96,9 +103,16 @@ func Advance(opts AdvanceOptions) (AdvanceResult, error) {
 		}
 		classCounts[className]++
 		scenarioTotal := 10 + (runIdx % 3) // 10,11,12 cycle
-		scenarioPassed := scenarioTotal - 1
-		if runIdx%5 == 0 {
-			scenarioPassed = scenarioTotal // occasional perfect pass
+		scenarioPassed := scenarioTotal
+		switch opts.QualityMode {
+		case "standard":
+			scenarioPassed = scenarioTotal - 1
+			if runIdx%5 == 0 {
+				scenarioPassed = scenarioTotal // occasional perfect pass
+			}
+		case "high":
+			// remediation mode: force perfect scenario outcomes.
+			scenarioPassed = scenarioTotal
 		}
 		rec := level4gate.EvalRecord{
 			WindowID:         opts.WindowID,
@@ -151,6 +165,7 @@ func Advance(opts AdvanceOptions) (AdvanceResult, error) {
 			SourceRefs:    []string{"window:" + opts.WindowID},
 			Summary:       fmt.Sprintf("Autonomous window advance appended %d runs (%s..%s)", len(added), added[0].RunID, added[len(added)-1].RunID),
 			Decisions: []string{
+				fmt.Sprintf("Quality mode=%s", opts.QualityMode),
 				fmt.Sprintf("Baseline gate pass=%v", baseReport.Passed),
 				fmt.Sprintf("Adversarial gate pass=%v", advReport.Passed),
 			},
