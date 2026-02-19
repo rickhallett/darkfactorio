@@ -149,6 +149,15 @@ Adversarial gate:
 go run ./cmd/dfgatev01 -input runs/<window_id>.ndjson -window <window_id> -criteria profiles/level4-gate-v0.1-adversarial.json -output text
 ```
 
+Corpus adversarial replay (multi-window):
+
+```bash
+go run ./cmd/dfcorpusv01 \
+  --inputs runs/w-2026-02-l4-02.ndjson,runs/w-2026-02-l4-03.ndjson \
+  --criteria profiles/level4-gate-v0.1-adversarial.json \
+  --output text
+```
+
 Learning entry:
 
 ```bash
