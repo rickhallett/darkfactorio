@@ -1,0 +1,12 @@
+{
+  "candidate_producer": "benhoyt-inih-impl",
+  "candidate_results": "shadowpacks/benhoyt-inih/candidate.json",
+  "criteria": {
+    "max_outcome_mismatch_rate_percent": 10,
+    "max_p95_latency_drift_percent": 25,
+    "min_overlap": 10
+  },
+  "holdout_producer": "benhoyt-inih-qa",
+  "holdout_results": "shadowpacks/benhoyt-inih/holdout.json",
+  "pack_id": "benhoyt-inih-shadowpack-v0.1"
+}

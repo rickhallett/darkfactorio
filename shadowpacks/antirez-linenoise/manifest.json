@@ -1,0 +1,12 @@
+{
+  "candidate_producer": "antirez-linenoise-impl",
+  "candidate_results": "shadowpacks/antirez-linenoise/candidate.json",
+  "criteria": {
+    "max_outcome_mismatch_rate_percent": 10,
+    "max_p95_latency_drift_percent": 25,
+    "min_overlap": 10
+  },
+  "holdout_producer": "antirez-linenoise-qa",
+  "holdout_results": "shadowpacks/antirez-linenoise/holdout.json",
+  "pack_id": "antirez-linenoise-shadowpack-v0.1"
+}

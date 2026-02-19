@@ -1,0 +1,12 @@
+{
+  "candidate_producer": "davegamble-cjson-impl",
+  "candidate_results": "shadowpacks/davegamble-cjson/candidate.json",
+  "criteria": {
+    "max_outcome_mismatch_rate_percent": 10,
+    "max_p95_latency_drift_percent": 25,
+    "min_overlap": 10
+  },
+  "holdout_producer": "davegamble-cjson-qa",
+  "holdout_results": "shadowpacks/davegamble-cjson/holdout.json",
+  "pack_id": "davegamble-cjson-shadowpack-v0.1"
+}

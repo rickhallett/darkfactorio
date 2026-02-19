@@ -1,0 +1,12 @@
+[
+  {
+    "latency_ms": 120,
+    "outcome": "pass",
+    "scenario_id": "s-001"
+  },
+  {
+    "latency_ms": 135,
+    "outcome": "pass",
+    "scenario_id": "s-002"
+  }
+]
