@@ -176,6 +176,7 @@ Seven-aspect infrastructure validation bundle:
 Run:
 
 - `make factory-v04-validate`
+- `make stress-v04` (10-check failure-injection matrix)
 
 Scriptable gate evaluator (Go, versioned):
 

@@ -28,6 +28,27 @@ Exit codes:
 - `2`: one or more layer checks failed
 - `1`: invalid input/runtime issue
 
+## Stress Harness
+
+Run full failure-injection matrix:
+
+```bash
+make stress-v04
+```
+
+This executes and self-validates:
+
+1. data contract fuzz rejection
+2. threshold boundary determinism
+3. corpus degradation fail behavior
+4. policy evidence break detection
+5. twin health chaos detection
+6. release rollback integrity detection
+7. economic overload detection
+8. orchestration cycle detection
+9. quality-high guardrail enforcement
+10. autonomy soak append stability
+
 ## what this is / isn't
 
 - It **is** an enforceable infrastructure contract for dark-factory readiness.
