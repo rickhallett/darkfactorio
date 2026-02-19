@@ -1,12 +1,12 @@
 [
-  {
-    "latency_ms": 120,
-    "outcome": "pass",
-    "scenario_id": "s-001"
-  },
-  {
-    "latency_ms": 135,
-    "outcome": "pass",
-    "scenario_id": "s-002"
-  }
+{"scenario_id":"s-001","outcome":"pass","latency_ms":14},
+{"scenario_id":"s-002","outcome":"pass","latency_ms":12},
+{"scenario_id":"s-003","outcome":"pass","latency_ms":214},
+{"scenario_id":"s-004","outcome":"pass","latency_ms":167},
+{"scenario_id":"s-005","outcome":"pass","latency_ms":221},
+{"scenario_id":"s-006","outcome":"pass","latency_ms":42},
+{"scenario_id":"s-007","outcome":"pass","latency_ms":29},
+{"scenario_id":"s-008","outcome":"pass","latency_ms":17},
+{"scenario_id":"s-009","outcome":"pass","latency_ms":17},
+{"scenario_id":"s-010","outcome":"pass","latency_ms":15}
 ]
