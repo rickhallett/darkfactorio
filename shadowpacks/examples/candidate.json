@@ -1,0 +1,8 @@
+[
+  {"scenario_id":"s-001","outcome":"pass","latency_ms":115},
+  {"scenario_id":"s-002","outcome":"pass","latency_ms":123},
+  {"scenario_id":"s-003","outcome":"fail","latency_ms":140},
+  {"scenario_id":"s-004","outcome":"pass","latency_ms":111},
+  {"scenario_id":"s-005","outcome":"pass","latency_ms":132},
+  {"scenario_id":"s-006","outcome":"error","latency_ms":160}
+]

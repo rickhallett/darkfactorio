@@ -1,0 +1,12 @@
+{
+  "pack_id": "shadowpack-v0.1-example",
+  "candidate_results": "shadowpacks/examples/candidate.json",
+  "holdout_results": "shadowpacks/examples/holdout.json",
+  "candidate_producer": "implementation-agent-loop",
+  "holdout_producer": "qa-holdout-harness",
+  "criteria": {
+    "min_overlap": 6,
+    "max_outcome_mismatch_rate_percent": 10,
+    "max_p95_latency_drift_percent": 25
+  }
+}

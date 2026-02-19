@@ -1,0 +1,27 @@
+# shadow-pack v0.1
+
+`shadow-pack` enforces separation between implementation and QA feedback loops.
+
+Core rule:
+
+- `candidate_producer` must be different from `holdout_producer`.
+
+The evaluator compares:
+
+- overlap coverage
+- outcome mismatch rate
+- p95 latency drift
+
+Run:
+
+```bash
+make shadow-pack
+```
+
+or:
+
+```bash
+go run ./cmd/dfshadowv01 --manifest shadowpacks/examples/manifest.json --output text
+```
+
+This is a scaffold for independent holdout packs from external repos/teams.
