@@ -1,0 +1,20 @@
+{
+  "entries": [
+    {
+      "index": 0,
+      "timestamp": "2026-02-19T00:00:00Z",
+      "actor": "ops",
+      "payload": "initialize-v05-chain",
+      "prev_hash": "GENESIS",
+      "hash": "99e15024c8f8ce7f0d2a7ac60dcb919c428a46ee324aafe818af2da553158bad"
+    },
+    {
+      "index": 1,
+      "timestamp": "2026-02-19T00:10:00Z",
+      "actor": "ops",
+      "payload": "promotion-v0.3-approved",
+      "prev_hash": "99e15024c8f8ce7f0d2a7ac60dcb919c428a46ee324aafe818af2da553158bad",
+      "hash": "b50f42679e66b1bf56764d58f8dc6265cf623b5bb14e598050bd8c350d1500dc"
+    }
+  ]
+}

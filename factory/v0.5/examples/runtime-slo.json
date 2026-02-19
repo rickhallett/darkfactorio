@@ -1,0 +1,8 @@
+{
+  "availability_percent": 99.95,
+  "min_availability_percent": 99.9,
+  "error_rate_percent": 0.2,
+  "max_error_rate_percent": 1.0,
+  "p95_latency_ms": 320,
+  "max_p95_latency_ms": 500
+}

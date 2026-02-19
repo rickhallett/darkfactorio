@@ -1,0 +1,12 @@
+{
+  "environment": "staging",
+  "canary_percent": 20,
+  "promoted": true,
+  "rollback_ready": true,
+  "rollback_steps": [
+    "disable traffic to candidate",
+    "restore previous artifact",
+    "verify post-rollback health"
+  ],
+  "rollback_trigger_slo": "error_rate_percent>1.0 for 5m"
+}

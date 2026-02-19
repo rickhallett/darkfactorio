@@ -176,6 +176,7 @@ Seven-aspect infrastructure validation bundle:
 Run:
 
 - `make factory-v04-validate`
+- `make factory-v05-validate`
 - `make stress-v04` (10-check failure-injection matrix)
 - `make shadow-pack` (independent implementation-vs-holdout separation check)
 - `make onboard-project PROJECT=<project>` (generate shadow-pack scaffold)

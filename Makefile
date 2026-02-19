@@ -1,4 +1,4 @@
-.PHONY: test gate-sample gate-sample-adversarial build-dfgate build-dfgatev01 build-dflearn build-dfwindowv01 build-dfcorpusv01 build-dffactoryv04 build-dfstressv04 build-dfshadowv01 build-dfonboardv01 learning-touch learning-check window-advance window-advance-high corpus-adversarial factory-v04-validate stress-v04 shadow-pack onboard-project onboard-validate
+.PHONY: test gate-sample gate-sample-adversarial build-dfgate build-dfgatev01 build-dflearn build-dfwindowv01 build-dfcorpusv01 build-dffactoryv04 build-dffactoryv05 build-dfstressv04 build-dfshadowv01 build-dfonboardv01 learning-touch learning-check window-advance window-advance-high corpus-adversarial factory-v04-validate factory-v05-validate stress-v04 shadow-pack onboard-project onboard-validate
 
 GOCACHE ?= $(CURDIR)/.cache/go-build
 GO := GOCACHE=$(GOCACHE) go
@@ -23,6 +23,9 @@ build-dfcorpusv01:
 
 build-dffactoryv04:
 	$(GO) build -o ./bin/dffactoryv04 ./cmd/dffactoryv04
+
+build-dffactoryv05:
+	$(GO) build -o ./bin/dffactoryv05 ./cmd/dffactoryv05
 
 build-dfstressv04:
 	$(GO) build -o ./bin/dfstressv04 ./cmd/dfstressv04
@@ -50,6 +53,9 @@ corpus-adversarial:
 
 factory-v04-validate:
 	$(GO) run ./cmd/dffactoryv04 --bundle factory/v0.4/examples/bundle.json --output text
+
+factory-v05-validate:
+	$(GO) run ./cmd/dffactoryv05 --bundle factory/v0.5/examples/bundle.json --output text
 
 stress-v04:
 	$(GO) run ./cmd/dfstressv04 --output text

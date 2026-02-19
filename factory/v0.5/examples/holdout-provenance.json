@@ -1,0 +1,7 @@
+{
+  "holdout_producer": "qa-holdout-team",
+  "holdout_repo": "github.com/example/qa-holdout",
+  "holdout_sha": "holdout789",
+  "results_path": "factory/v0.5/examples/holdout-results.json",
+  "results_sha256": "08710dcfc7deb2c792ed5de50c09a083c29769a20aa43809edf97758e8c13e07"
+}

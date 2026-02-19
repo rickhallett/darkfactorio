@@ -1,0 +1,8 @@
+{
+  "spec_id": "spec-v0.5-001",
+  "implementation_repo": "github.com/example/project",
+  "implementation_sha": "abc123def456",
+  "command": "make build",
+  "exit_code": 0,
+  "artifact_path": "factory/v0.5/examples/impl-artifact.txt"
+}

@@ -1,0 +1,8 @@
+{
+  "provider_cost_usd": 980,
+  "internal_cost_usd": 955,
+  "max_delta_percent": 5,
+  "provider_tokens": 740000,
+  "internal_tokens": 725000,
+  "max_token_delta_percent": 5
+}

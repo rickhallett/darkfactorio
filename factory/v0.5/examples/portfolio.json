@@ -1,0 +1,7 @@
+{
+  "projects": [
+    {"name":"project-alpha","value_score":9,"risk_score":2,"readiness_score":8,"expected_hours":6,"priority_score":6},
+    {"name":"project-beta","value_score":7,"risk_score":2.5,"readiness_score":7,"expected_hours":6,"priority_score":3.2666666667},
+    {"name":"project-gamma","value_score":6,"risk_score":3,"readiness_score":6,"expected_hours":6,"priority_score":2}
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "spec_exec_path": "factory/v0.5/examples/spec-exec.json",
+  "holdout_provenance_path": "factory/v0.5/examples/holdout-provenance.json",
+  "twin_drift_path": "factory/v0.5/examples/twin-drift.json",
+  "deploy_evidence_path": "factory/v0.5/examples/deploy-evidence.json",
+  "runtime_slo_path": "factory/v0.5/examples/runtime-slo.json",
+  "econ_reconcile_path": "factory/v0.5/examples/econ-reconcile.json",
+  "redteam_path": "factory/v0.5/examples/redteam.json",
+  "policy_chain_path": "factory/v0.5/examples/policy-chain.json",
+  "portfolio_path": "factory/v0.5/examples/portfolio.json"
+}

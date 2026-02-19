@@ -1,0 +1,9 @@
+{
+  "min_detection_rate_percent": 90,
+  "cases": [
+    {"id":"rt-001","expected_detection":true,"detected":true},
+    {"id":"rt-002","expected_detection":true,"detected":true},
+    {"id":"rt-003","expected_detection":true,"detected":true},
+    {"id":"rt-004","expected_detection":false,"detected":false}
+  ]
+}
