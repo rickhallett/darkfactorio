@@ -1,0 +1,17 @@
+{
+  "required_controls": ["CTRL-LOG-001", "CTRL-PROMO-002"],
+  "attestations": [
+    {
+      "control_id": "CTRL-LOG-001",
+      "owner": "ops@darkfactorio",
+      "timestamp": "2026-02-19T00:00:00Z",
+      "evidence": ["learning/journal/2026/2026-02-19.md"]
+    },
+    {
+      "control_id": "CTRL-PROMO-002",
+      "owner": "ops@darkfactorio",
+      "timestamp": "2026-02-19T00:05:00Z",
+      "evidence": ["learning/decisions/2026-02-19-promotion-v0.2-to-v0.3.md"]
+    }
+  ]
+}

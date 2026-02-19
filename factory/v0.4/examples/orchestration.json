@@ -1,0 +1,13 @@
+{
+  "agents": [
+    {"name": "planner-1", "role": "planner"},
+    {"name": "builder-1", "role": "executor"},
+    {"name": "judge-1", "role": "evaluator"}
+  ],
+  "stages": [
+    {"id": "spec", "depends_on": []},
+    {"id": "build", "depends_on": ["spec"]},
+    {"id": "validation", "depends_on": ["build"]},
+    {"id": "promote", "depends_on": ["validation"]}
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "title": "darkfactorio v0.4 autonomous cycle",
+  "objective": "turn validated specs into evaluated artifacts with policy and economic guardrails",
+  "non_negotiables": [
+    "no release without adversarial evidence",
+    "learning record required for substantive changes",
+    "rollback plan must be executable"
+  ],
+  "acceptance": [
+    "bundle validator passes all 7 layers",
+    "corpus adversarial replay passes",
+    "promotion decision has explicit guardrails"
+  ]
+}

@@ -164,6 +164,19 @@ Template index: `templates.md`
 - Run schema: `schemas/run-envelope-v0.1.json`
 - Eval record schema: `schemas/level4-eval-record-v0.1.json`
 
+## darkfactorio layer v0.4
+
+Seven-aspect infrastructure validation bundle:
+
+- validator CLI: `cmd/dffactoryv04`
+- contract validator core: `internal/factoryv04/validate.go`
+- example bundle: `factory/v0.4/examples/bundle.json`
+- docs: `factory/v0.4/README.md`
+
+Run:
+
+- `make factory-v04-validate`
+
 Scriptable gate evaluator (Go, versioned):
 
 - baseline: `go run ./cmd/dfgatev01 -input runs/<window_id>.ndjson -window <window_id> -criteria profiles/level4-gate-v0.1-baseline.json -output text`

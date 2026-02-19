@@ -1,0 +1,14 @@
+{
+  "candidate_id": "cand-v0.4-001",
+  "artifact_path": "factory/v0.4/examples/artifact.txt",
+  "baseline_pass": true,
+  "adversarial_pass": true,
+  "holdout_pass": true,
+  "policy_pass": true,
+  "econ_pass": true,
+  "rollback_steps": [
+    "mark release candidate as blocked",
+    "restore prior artifact pointer",
+    "run post-rollback health check"
+  ]
+}

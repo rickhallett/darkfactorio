@@ -1,0 +1,18 @@
+{
+  "services": [
+    {
+      "name": "jira",
+      "mode": "simulated",
+      "contract_version": "v1",
+      "healthy": true,
+      "failure_policy": "fail-closed"
+    },
+    {
+      "name": "okta",
+      "mode": "simulated",
+      "contract_version": "v1",
+      "healthy": true,
+      "failure_policy": "fail-closed"
+    }
+  ]
+}

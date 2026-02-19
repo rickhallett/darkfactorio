@@ -1,4 +1,4 @@
-.PHONY: test gate-sample gate-sample-adversarial build-dfgate build-dfgatev01 build-dflearn build-dfwindowv01 build-dfcorpusv01 learning-touch learning-check window-advance window-advance-high corpus-adversarial
+.PHONY: test gate-sample gate-sample-adversarial build-dfgate build-dfgatev01 build-dflearn build-dfwindowv01 build-dfcorpusv01 build-dffactoryv04 learning-touch learning-check window-advance window-advance-high corpus-adversarial factory-v04-validate
 
 GOCACHE ?= $(CURDIR)/.cache/go-build
 GO := GOCACHE=$(GOCACHE) go
@@ -21,6 +21,9 @@ build-dfwindowv01:
 build-dfcorpusv01:
 	$(GO) build -o ./bin/dfcorpusv01 ./cmd/dfcorpusv01
 
+build-dffactoryv04:
+	$(GO) build -o ./bin/dffactoryv04 ./cmd/dffactoryv04
+
 learning-touch:
 	$(GO) run ./cmd/dflearn touch --source-project darkfactorio --summary "manual learning checkpoint"
 
@@ -35,6 +38,9 @@ window-advance-high:
 
 corpus-adversarial:
 	$(GO) run ./cmd/dfcorpusv01 --inputs runs/w-2026-02-l4-02.ndjson,runs/w-2026-02-l4-03.ndjson --criteria profiles/level4-gate-v0.1-adversarial.json --output text
+
+factory-v04-validate:
+	$(GO) run ./cmd/dffactoryv04 --bundle factory/v0.4/examples/bundle.json --output text
 
 gate-sample:
 	$(GO) run ./cmd/dfgatev01 -input runs/examples/window-sample.ndjson -window w-2026-02-l4-01 -criteria profiles/level4-gate-v0.1-baseline.json -output text

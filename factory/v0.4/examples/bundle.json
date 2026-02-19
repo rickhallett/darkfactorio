@@ -1,0 +1,9 @@
+{
+  "spec_path": "factory/v0.4/examples/spec.json",
+  "holdout_path": "factory/v0.4/examples/holdout.json",
+  "twins_path": "factory/v0.4/examples/twins.json",
+  "release_path": "factory/v0.4/examples/release.json",
+  "policy_path": "factory/v0.4/examples/policy.json",
+  "econ_path": "factory/v0.4/examples/econ.json",
+  "orchestration_path": "factory/v0.4/examples/orchestration.json"
+}
