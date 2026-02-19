@@ -1,0 +1,11 @@
+{
+  "runtime_input_path": "adapters/telemetry/examples/runtime-input.json",
+  "billing_input_path": "adapters/telemetry/examples/billing-input.json",
+  "out_runtime_path": "factory/v0.5/examples/runtime-slo.json",
+  "out_econ_path": "factory/v0.5/examples/econ-reconcile.json",
+  "min_availability_percent": 99.9,
+  "max_error_rate_percent": 1.0,
+  "max_p95_latency_ms": 500,
+  "max_cost_delta_percent": 5,
+  "max_token_delta_percent": 5
+}

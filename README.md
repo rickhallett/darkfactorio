@@ -181,6 +181,7 @@ Run:
 - `make shadow-pack` (independent implementation-vs-holdout separation check)
 - `make onboard-project PROJECT=<project>` (generate shadow-pack scaffold)
 - `make onboard-validate PROJECT=<project>` (validate candidate/holdout artifact schemas)
+- `make telemetry-sync CONFIG=adapters/telemetry/examples/config.json` (generate live runtime/econ gate inputs)
 
 Scriptable gate evaluator (Go, versioned):
 

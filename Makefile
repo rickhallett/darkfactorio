@@ -1,4 +1,4 @@
-.PHONY: test gate-sample gate-sample-adversarial build-dfgate build-dfgatev01 build-dflearn build-dfwindowv01 build-dfcorpusv01 build-dffactoryv04 build-dffactoryv05 build-dfstressv04 build-dfshadowv01 build-dfonboardv01 learning-touch learning-check window-advance window-advance-high corpus-adversarial factory-v04-validate factory-v05-validate stress-v04 shadow-pack onboard-project onboard-validate
+.PHONY: test gate-sample gate-sample-adversarial build-dfgate build-dfgatev01 build-dflearn build-dfwindowv01 build-dfcorpusv01 build-dffactoryv04 build-dffactoryv05 build-dfstressv04 build-dfshadowv01 build-dfonboardv01 build-dfadaptertelemetryv01 learning-touch learning-check window-advance window-advance-high corpus-adversarial factory-v04-validate factory-v05-validate stress-v04 shadow-pack onboard-project onboard-validate telemetry-sync
 
 GOCACHE ?= $(CURDIR)/.cache/go-build
 GO := GOCACHE=$(GOCACHE) go
@@ -36,6 +36,9 @@ build-dfshadowv01:
 build-dfonboardv01:
 	$(GO) build -o ./bin/dfonboardv01 ./cmd/dfonboardv01
 
+build-dfadaptertelemetryv01:
+	$(GO) build -o ./bin/dfadaptertelemetryv01 ./cmd/dfadaptertelemetryv01
+
 learning-touch:
 	$(GO) run ./cmd/dflearn touch --source-project darkfactorio --summary "manual learning checkpoint"
 
@@ -68,6 +71,9 @@ onboard-project:
 
 onboard-validate:
 	$(GO) run ./cmd/dfonboardv01 validate-artifacts --manifest shadowpacks/$(PROJECT)/manifest.json
+
+telemetry-sync:
+	$(GO) run ./cmd/dfadaptertelemetryv01 --config $(CONFIG) --output text
 
 gate-sample:
 	$(GO) run ./cmd/dfgatev01 -input runs/examples/window-sample.ndjson -window w-2026-02-l4-01 -criteria profiles/level4-gate-v0.1-baseline.json -output text
