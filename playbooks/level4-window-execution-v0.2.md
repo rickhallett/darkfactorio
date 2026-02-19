@@ -158,6 +158,10 @@ go run ./cmd/dfcorpusv01 \
   --output text
 ```
 
+Optional CI variant:
+
+- GitHub Actions workflow: `corpus-promotion-check` (manual dispatch)
+
 Learning entry:
 
 ```bash

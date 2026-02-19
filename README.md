@@ -190,6 +190,7 @@ Quick start:
 - `make window-advance WINDOW=w-2026-02-l4-03 APPEND=2`
 - `make window-advance-high WINDOW=w-2026-02-l4-03 APPEND=2 QUALITY_REASON="scenario quality below adversarial threshold"`
 - `make corpus-adversarial`
+- Optional CI promotion check: run workflow `corpus-promotion-check` (manual dispatch in Actions)
 
 ## Final Note
 

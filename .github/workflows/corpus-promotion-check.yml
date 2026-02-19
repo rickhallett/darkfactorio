@@ -1,0 +1,50 @@
+name: corpus-promotion-check
+
+on:
+  workflow_dispatch:
+    inputs:
+      inputs:
+        description: "Comma-separated NDJSON inputs"
+        required: false
+        default: "runs/w-2026-02-l4-02.ndjson,runs/w-2026-02-l4-03.ndjson"
+      criteria:
+        description: "Criteria profile path"
+        required: false
+        default: "profiles/level4-gate-v0.1-adversarial.json"
+
+jobs:
+  promotion-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+
+      - name: Run corpus adversarial replay
+        id: replay
+        run: |
+          set +e
+          go run ./cmd/dfcorpusv01 \
+            --inputs "${{ github.event.inputs.inputs || 'runs/w-2026-02-l4-02.ndjson,runs/w-2026-02-l4-03.ndjson' }}" \
+            --criteria "${{ github.event.inputs.criteria || 'profiles/level4-gate-v0.1-adversarial.json' }}" \
+            --output text | tee corpus-replay.txt
+          rc=$?
+          echo "exit_code=$rc" >> "$GITHUB_OUTPUT"
+          exit $rc
+
+      - name: Promotion summary
+        if: always()
+        run: |
+          echo "## Corpus Promotion Check" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Exit code: \`${{ steps.replay.outputs.exit_code }}\`" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Inputs: \`${{ github.event.inputs.inputs || 'runs/w-2026-02-l4-02.ndjson,runs/w-2026-02-l4-03.ndjson' }}\`" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Criteria: \`${{ github.event.inputs.criteria || 'profiles/level4-gate-v0.1-adversarial.json' }}\`" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo '```text' >> "$GITHUB_STEP_SUMMARY"
+          cat corpus-replay.txt >> "$GITHUB_STEP_SUMMARY"
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
