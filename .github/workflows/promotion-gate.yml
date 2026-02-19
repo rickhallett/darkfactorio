@@ -1,0 +1,32 @@
+name: promotion-gate
+
+on:
+  workflow_dispatch:
+    inputs:
+      run_stress:
+        description: "Run stress-v04 stage"
+        required: false
+        default: "false"
+      manifests:
+        description: "Comma-separated shadow-pack manifests"
+        required: false
+        default: "shadowpacks/antirez-linenoise/manifest.json,shadowpacks/davegamble-cjson/manifest.json,shadowpacks/benhoyt-inih/manifest.json"
+
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+
+      - name: Run promotion gate
+        run: |
+          go run ./cmd/dfpromotionv01 \
+            --manifests "${{ github.event.inputs.manifests || 'shadowpacks/antirez-linenoise/manifest.json,shadowpacks/davegamble-cjson/manifest.json,shadowpacks/benhoyt-inih/manifest.json' }}" \
+            --run-stress "${{ github.event.inputs.run_stress || 'false' }}" \
+            --output text

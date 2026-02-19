@@ -181,6 +181,7 @@ Run:
 - `make shadow-pack` (independent implementation-vs-holdout separation check)
 - `make onboard-project PROJECT=<project>` (generate shadow-pack scaffold)
 - `make onboard-validate PROJECT=<project>` (validate candidate/holdout artifact schemas)
+- `make promotion-gate-local RUN_STRESS=true` (run full promotion pipeline gate locally)
 
 Scriptable gate evaluator (Go, versioned):
 

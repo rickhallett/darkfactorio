@@ -161,6 +161,7 @@ go run ./cmd/dfcorpusv01 \
 Optional CI variant:
 
 - GitHub Actions workflow: `corpus-promotion-check` (manual dispatch)
+- GitHub Actions workflow: `promotion-gate` (manual dispatch full gate chain)
 
 Learning entry:
 
