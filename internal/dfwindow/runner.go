@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"strings"
 	"time"
 
 	"github.com/rickhallett/darkfactorio/internal/learning"
@@ -23,6 +24,7 @@ type AdvanceOptions struct {
 	AdversarialCriteria string
 	LogLearning         bool
 	QualityMode         string
+	QualityReason       string
 }
 
 type AdvanceResult struct {
@@ -63,6 +65,9 @@ func Advance(opts AdvanceOptions) (AdvanceResult, error) {
 	}
 	if opts.QualityMode != "standard" && opts.QualityMode != "high" {
 		return AdvanceResult{}, fmt.Errorf("quality_mode must be standard|high")
+	}
+	if opts.QualityMode == "high" && strings.TrimSpace(opts.QualityReason) == "" {
+		return AdvanceResult{}, fmt.Errorf("quality_reason is required when quality_mode=high")
 	}
 
 	absRuns := filepath.Join(opts.Root, opts.RunsPath)
@@ -159,16 +164,23 @@ func Advance(opts AdvanceOptions) (AdvanceResult, error) {
 	}
 
 	if opts.LogLearning {
+		decisions := []string{
+			fmt.Sprintf("Quality mode=%s", opts.QualityMode),
+		}
+		if strings.TrimSpace(opts.QualityReason) != "" {
+			decisions = append(decisions, fmt.Sprintf("Quality reason=%s", strings.TrimSpace(opts.QualityReason)))
+		}
+		decisions = append(decisions,
+			fmt.Sprintf("Baseline gate pass=%v", baseReport.Passed),
+			fmt.Sprintf("Adversarial gate pass=%v", advReport.Passed),
+		)
+
 		lp, err := learning.Touch(learning.TouchOptions{
 			Root:          opts.Root,
 			SourceProject: "darkfactorio",
 			SourceRefs:    []string{"window:" + opts.WindowID},
 			Summary:       fmt.Sprintf("Autonomous window advance appended %d runs (%s..%s)", len(added), added[0].RunID, added[len(added)-1].RunID),
-			Decisions: []string{
-				fmt.Sprintf("Quality mode=%s", opts.QualityMode),
-				fmt.Sprintf("Baseline gate pass=%v", baseReport.Passed),
-				fmt.Sprintf("Adversarial gate pass=%v", advReport.Passed),
-			},
+			Decisions:     decisions,
 			Evidence: []string{
 				opts.RunsPath,
 				fmt.Sprintf("baseline scenario_pass=%.2f run_count=%d", baseReport.Metrics.ScenarioPassRatePercent, baseReport.Metrics.RunCount),

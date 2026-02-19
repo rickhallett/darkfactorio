@@ -26,6 +26,7 @@ func run(args []string) int {
 	var baseline string
 	var adversarial string
 	var quality string
+	var qualityReason string
 
 	fs.StringVar(&windowID, "window", "", "window id (required)")
 	fs.StringVar(&runsPath, "runs", "", "runs NDJSON path (default runs/<window>.ndjson)")
@@ -36,6 +37,7 @@ func run(args []string) int {
 	fs.StringVar(&baseline, "baseline", "profiles/level4-gate-v0.1-baseline.json", "baseline criteria path")
 	fs.StringVar(&adversarial, "adversarial", "profiles/level4-gate-v0.1-adversarial.json", "adversarial criteria path")
 	fs.StringVar(&quality, "quality", "standard", "run quality mode: standard|high")
+	fs.StringVar(&qualityReason, "quality-reason", "", "required when --quality high; why remediation mode is justified")
 
 	if err := fs.Parse(args); err != nil {
 		return 1
@@ -71,6 +73,7 @@ func run(args []string) int {
 		AdversarialCriteria: adversarial,
 		LogLearning:         logLearning,
 		QualityMode:         quality,
+		QualityReason:       qualityReason,
 	})
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "error: %v\n", err)

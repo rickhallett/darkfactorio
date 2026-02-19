@@ -179,7 +179,7 @@ go run ./cmd/dfwindowv01 --window <window_id> --append 2
 Quality remediation mode (forces perfect scenario outcomes in appended runs):
 
 ```bash
-go run ./cmd/dfwindowv01 --window <window_id> --append 2 --quality high
+go run ./cmd/dfwindowv01 --window <window_id> --append 2 --quality high --quality-reason "<explicit justification>"
 ```
 
 ## Failure protocol
