@@ -178,6 +178,8 @@ Run:
 - `make factory-v04-validate`
 - `make stress-v04` (10-check failure-injection matrix)
 - `make shadow-pack` (independent implementation-vs-holdout separation check)
+- `make onboard-project PROJECT=<project>` (generate shadow-pack scaffold)
+- `make onboard-validate PROJECT=<project>` (validate candidate/holdout artifact schemas)
 
 Scriptable gate evaluator (Go, versioned):
 

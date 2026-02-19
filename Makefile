@@ -1,4 +1,4 @@
-.PHONY: test gate-sample gate-sample-adversarial build-dfgate build-dfgatev01 build-dflearn build-dfwindowv01 build-dfcorpusv01 build-dffactoryv04 build-dfstressv04 build-dfshadowv01 learning-touch learning-check window-advance window-advance-high corpus-adversarial factory-v04-validate stress-v04 shadow-pack
+.PHONY: test gate-sample gate-sample-adversarial build-dfgate build-dfgatev01 build-dflearn build-dfwindowv01 build-dfcorpusv01 build-dffactoryv04 build-dfstressv04 build-dfshadowv01 build-dfonboardv01 learning-touch learning-check window-advance window-advance-high corpus-adversarial factory-v04-validate stress-v04 shadow-pack onboard-project onboard-validate
 
 GOCACHE ?= $(CURDIR)/.cache/go-build
 GO := GOCACHE=$(GOCACHE) go
@@ -30,6 +30,9 @@ build-dfstressv04:
 build-dfshadowv01:
 	$(GO) build -o ./bin/dfshadowv01 ./cmd/dfshadowv01
 
+build-dfonboardv01:
+	$(GO) build -o ./bin/dfonboardv01 ./cmd/dfonboardv01
+
 learning-touch:
 	$(GO) run ./cmd/dflearn touch --source-project darkfactorio --summary "manual learning checkpoint"
 
@@ -53,6 +56,12 @@ stress-v04:
 
 shadow-pack:
 	$(GO) run ./cmd/dfshadowv01 --manifest shadowpacks/examples/manifest.json --output text
+
+onboard-project:
+	$(GO) run ./cmd/dfonboardv01 scaffold --project $(PROJECT) --candidate-producer $(or $(CANDIDATE_PRODUCER),$(PROJECT)-impl) --holdout-producer $(or $(HOLDOUT_PRODUCER),$(PROJECT)-qa)
+
+onboard-validate:
+	$(GO) run ./cmd/dfonboardv01 validate-artifacts --manifest shadowpacks/$(PROJECT)/manifest.json
 
 gate-sample:
 	$(GO) run ./cmd/dfgatev01 -input runs/examples/window-sample.ndjson -window w-2026-02-l4-01 -criteria profiles/level4-gate-v0.1-baseline.json -output text
